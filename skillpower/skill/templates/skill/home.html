@@ -1,0 +1,92 @@
+{% extends 'skill/dash.html' %}
+
+{% block content %}
+
+<div class="container-lg p-4">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card" style="width: 18rem;">
+        <img
+          src="{{user.profile.profile_image.url}}"
+          class="card-img-top"
+          alt="..."
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{user.username}}</h5>
+          <p class="card-text">
+            {{user.email}}
+          </p>
+          {% if user.profile.organization == '' %}
+              <p class="text-danger">*Account not set*</p>
+          {% endif %}
+          <a href="/profile" class="btn btn-primary">Profile</a>
+        </div>
+      </div>
+    </div>
+    {% if user.profile.organization == 'School' %}
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <div class="card-title">No of Students</div>
+            <div class="card-text">
+              <h3 class="text-muted">{{ students }}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% elif user.profile.organization == 'Office' %}
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title">No of Staffs Registered</div>
+          <div class="card-text">
+            <h3 class="text-muted">{{ staffs }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+  {% if user.profile.organization == 'School' %}
+    <div class="pt-3">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <div class="card-title">Courses Registered</div>
+            <div class="card-text">
+              <h4 class="text-muted">{{ user.school.courses_to_offer }}</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% elif user.profile.organization == 'Office' %}
+    <div class="pt-3">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <div class="card-title">Courses Registered</div>
+            <div class="card-text">
+              <h4 class="text-muted">{{ user.office.courses_to_offer }}</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% elif user.profile.organization == 'Community' %}
+    <div class="pt-3">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <div class="card-title">Courses Registered</div>
+            <div class="card-text">
+              <h4 class="text-muted">{{ user.community.courses_to_offer }}</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+{% endblock %}

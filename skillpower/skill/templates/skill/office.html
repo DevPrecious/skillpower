@@ -1,0 +1,25 @@
+{% extends 'skill/dash.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-xl-5 col-md-8">
+                <form method="POST" class="bg-white rounded shadow-5-strong p-2">
+                    {% for message in messages %}
+                        <div class="alert alert-{{message.tags}}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    <p>Fill in the forms</p>
+                    {% csrf_token %}
+                    {{form|crispy}}
+                    <div class="pl-2 pt-2">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

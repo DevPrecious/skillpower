@@ -1,0 +1,69 @@
+{% extends 'skill/dash.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container-lg p-4">
+    <div class="row">
+        <div class="col">
+            <div class="card" style="width: 18rem;">
+                <img
+                  src="{{user.profile.profile_image.url}}"
+                  class="card-img-top"
+                  alt="..."
+                />
+                <div class="card-body">
+                  <h5 class="card-title">{{user.username}}</h5>
+                  <p class="card-text">
+                    {{user.email}}
+                  </p>
+                  {% if user.profile.organization == '' %}
+                    <p class="text-danger">*Account not set*</p>
+                  {% endif %}
+                  <a href="/profile" class="btn btn-primary">Profile</a>
+                </div>
+              </div>
+        </div>
+        <div class="col">
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for message in messages %}
+                  <div class="alert alert-{{message.tags}}">
+                      {{ message }}
+                  </div>
+                {% endfor %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Update Profile</legend>
+                    {{u_form|crispy}}
+                    {% if user.profile.organization != '' %}
+                    {{p_form.profile_image|as_crispy_field}}
+                    {% else %}
+                    {{p_form|crispy}}
+                    {% endif %}
+                    <div class="pt-3">
+                      {% if user.profile.organization == 'School' %}
+                    <p class="alert alert-info">
+                      You registered as {{user.profile.organization}}, Please kindly fill in your details 
+                      <a href="{% url 'school-detail' %}">here</a>
+                    </p>
+                      {% elif user.profile.organization == 'Office' %}
+                      <p class="alert alert-info">
+                        You registered as {{user.profile.organization}}, Please kindly fill in your details 
+                        <a href="{% url 'office-detail' %}">here</a>
+                      </p>
+                      {% elif user.profile.organization == 'Community' %}
+                      <p class="alert alert-info">
+                        You registered as {{user.profile.organization}}, Please kindly fill in your details 
+                        <a href="{% url 'community-detail' %}">here</a>
+                      </p>
+                    {% endif %}
+                    </div>
+                </fieldset>
+                <div class="pt-3">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
